@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -9,7 +9,6 @@ import DeleteConfirmPopup from "./DeleteConfirmPopup";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
 
 function App() {
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
@@ -50,16 +49,19 @@ function App() {
 
   function handleDeleteCard() {
     setIsLoading(true);
-    const isOwn = cardToDelete === currentUser._id;
 
     api
-      .deleteCard(cardToDelete._id, isOwn)
+      .deleteCard(cardToDelete._id)
       .then(() => {
-        setCards((state) => state.filter((item) => item._id !== cardToDelete._id));
+        setCards((state) =>
+          state.filter((item) => item._id !== cardToDelete._id)
+        );
         closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {setIsLoading(false)});
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function handleLikeClick(card) {
@@ -96,7 +98,9 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {setIsLoading(false)});
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function handleUpdateAvatar(avatar) {
@@ -109,7 +113,9 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {setIsLoading(false)});
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function handleAddPlaceSubmit(data) {
@@ -122,7 +128,9 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => console.log(err))
-      .finally(() => {setIsLoading(false)});
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const [selectedCard, setSelectedCard] = useState({
@@ -140,28 +148,6 @@ function App() {
       item: {},
     });
   }
-
-  const handleEscClose = useCallback((e) => {
-    if (e.key === 'Escape') {
-      closeAllPopups();
-    }
-  }, []);
-
-  const handleOverlayClose = useCallback((e) => {
-    if (e.target.classList.contains('popup_opened') || e.target.classList.contains('popup__close-btn')) {
-      closeAllPopups();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleEscClose);
-    document.addEventListener("mousedown", handleOverlayClose);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-      document.removeEventListener("mousedown", handleOverlayClose);
-    };
-  }, [handleEscClose, handleOverlayClose]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -209,11 +195,7 @@ function App() {
             isLoading={isLoading}
           />
 
-          <ImagePopup
-            card={selectedCard}
-            onClose={closeAllPopups}
-          />
-
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </div>
       </div>
     </CurrentUserContext.Provider>

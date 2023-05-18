@@ -1,4 +1,5 @@
 import React from "react";
+import usePopupClose from "../hooks/usePopupClose";
 
 export default function PopupWithForm({
   isOpen,
@@ -8,17 +9,14 @@ export default function PopupWithForm({
   name,
   children,
   submitBtnText,
-  isSubmitDisabled
+  isSubmitDisabled,
 }) {
+  usePopupClose(isOpen, onClose);
 
   return (
     <section className={`popup ${isOpen ? `popup_opened` : ""}`}>
       <div className="popup__container">
-        <button
-          className="popup__close-btn"
-          type="button"
-          onClick={onClose}
-        />
+        <button className="popup__close-btn" type="button" onClick={onClose} />
         <h3
           className={`popup__title popup__title_type_${name}`}
           onSubmit={onSubmit}

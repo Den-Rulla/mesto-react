@@ -1,32 +1,43 @@
 import React from "react";
 
-export default function PopupWithForm(props) {
+export default function PopupWithForm({
+  isOpen,
+  onClose,
+  onSubmit,
+  title,
+  name,
+  children,
+  submitBtnText,
+  isSubmitDisabled
+}) {
+
   return (
-    <section
-      className={`popup ${
-        props.isOpen ? `popup_opened` : ""
-      }`}
-    >
+    <section className={`popup ${isOpen ? `popup_opened` : ""}`}>
       <div className="popup__container">
         <button
           className="popup__close-btn"
           type="button"
-          onClick={props.onClose}
-        ></button>
-        <h3 className={`popup__title popup__title_type_${props.name}`}>
-          {props.title}
+          onClick={onClose}
+        />
+        <h3
+          className={`popup__title popup__title_type_${name}`}
+          onSubmit={onSubmit}
+        >
+          {title}
         </h3>
         <form
-          className={`popup__form popup__form_type_${props.name}`}
-          name={`popup-${props.name}-form`}
+          className={`popup__form popup__form_type_${name}`}
+          onSubmit={onSubmit}
+          name={`popup-${name}-form`}
           action="#"
         >
-          {props.children}
+          {children}
           <button
-            className={`popup__submit-btn popup__submit-btn_type_${props.name}`}
+            className={`popup__submit-btn popup__submit-btn_type_${name}`}
             type="submit"
+            disabled={isSubmitDisabled}
           >
-            {props.submitBtnText}
+            {submitBtnText}
           </button>
         </form>
       </div>

@@ -10,8 +10,7 @@ export default function ImagePopup({card, onClose}) {
         </figure>
         <button className="popup__close-btn"
         type="button"
-        onClick={onClose}>
-        </button>
+        onClick={onClose} />
       </div>
     </section>
   );

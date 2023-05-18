@@ -20,13 +20,13 @@ class Api {
     });
   }
 
-  addCard(data) {
+  addCard({ name, link }) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        link: data.link,
+        name: name,
+        link: link,
       }),
     }).then((res) => this._checkResult(res));
   }
@@ -59,23 +59,23 @@ class Api {
     }).then((res) => this._checkResult(res));
   }
 
-  editUserInfo(name, job) {
+  editUserInfo({ name, about }) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name: name,
-        about: job,
+        about: about,
       }),
     }).then((res) => this._checkResult(res));
   }
 
-  editUserAvatar(link) {
+  editUserAvatar({ avatar }) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: link,
+        avatar: avatar,
       }),
     }).then((res) => this._checkResult(res));
   }
